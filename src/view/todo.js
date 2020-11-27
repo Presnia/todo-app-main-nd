@@ -70,6 +70,10 @@ function renderButton(doc, actioName, todoId, className, title) {
 function renderControlBlock(doc, todo) {
   const controlBlock = createElement(doc, "div", "control-block");
 
+  controlBlock.append(
+    renderButton(doc, "view", todo.id, "view-button", "View")
+  );
+
   if (todo.state === todoState.InProcess) {
     controlBlock.append(
       renderButton(doc, "postpone", todo.id, "postpone-button", "Postpone")

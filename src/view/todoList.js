@@ -1,5 +1,4 @@
 import { createElement } from "../helpers.js";
-import todoStorage from "../model/todoStorage.js";
 import renderTodoItem from "./todo.js";
 
 function renderEmptyPlaceholder(doc) {
@@ -9,11 +8,9 @@ function renderEmptyPlaceholder(doc) {
   return emptyList;
 }
 
-export default function renderTodoList(doc) {
+export default function renderTodoList(doc, allTodo) {
   const todoListElement = doc.querySelector(".todo-list");
   todoListElement.querySelectorAll("*").forEach((n) => n.remove());
-
-  const allTodo = todoStorage.getAllTodo();
 
   if (allTodo.length === 0) {
     todoListElement.append(renderEmptyPlaceholder(doc));

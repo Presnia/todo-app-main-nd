@@ -7,7 +7,6 @@ function addTodoHandler(doc) {
   console.log("Add button clicked");
   const todoTextInput = getTodoInput(doc);
   todoStorage.createTodo(todoTextInput.value);
-  todoTextInput.value = "";
 
   const todoItemCreated = new Event("todo-item-created");
   doc.dispatchEvent(todoItemCreated);
@@ -29,7 +28,8 @@ function updateTotalTodoCount(doc) {
 function updateTodoList(doc) {
   console.log("Updating Todo List");
 
-  renderTodoList(doc);
+  const allTodo = todoStorage.getAllTodo();
+  renderTodoList(doc, allTodo);
 }
 
 function notifyAboutTodoChange(doc) {
@@ -47,6 +47,11 @@ function todoListActionHandler(doc, event) {
   const todoId = event.target.dataset["id"];
 
   switch (actionName) {
+    case "view":
+      console.log(`Processing view action for id: ${todoId}`);
+      // window.location.href = `index.html/todo/${todoId}`;
+      // history.pushState({}, `Todo Id: ${todoId}`, `todo/${todoId}`);
+      break;
     case "postpone":
       console.log(`Processing postpone action for id: ${todoId}`);
       todoStorage.postponeById(todoId);
@@ -108,6 +113,11 @@ function describeEventListeners(doc) {
       element: doc,
       eventName: "todo-item-created",
       handler: updateTodoList.bind(null, doc),
+    },
+    {
+      element: doc,
+      eventName: "todo-item-created",
+      handler: clearFormHandler.bind(null, doc),
     },
     {
       element: doc,

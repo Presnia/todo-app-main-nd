@@ -63,6 +63,11 @@
   text-align: right;
 }
 
+.view-button {
+  width: 125px;
+  color: aquamarine;
+}
+
 .postpone-button {
   width: 125px;
   color: orange;
