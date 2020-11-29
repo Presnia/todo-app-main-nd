@@ -1,14 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500&display=swap');
+
+::-webkit-input-placeholder {
+  /* WebKit browsers */
+  font-weight: 200;
+  color: gray;
+}
+
+:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  font-weight: 300;
+  color: gray;
+}
+
+::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  font-weight: 300;
+  color: gray;
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+  font-weight: 300;
+  color: gray;
+}
+
 * {
   box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgb(230, 253, 255);
 }
 
 #root {
+  margin: 0;
   width: 100%;
+  height: 100vh;
 }
 
 #app-container {
-  width: 70%;
+  width: 40%;
   margin: auto;
+  margin-top: 100px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 1em;
 }
 
 .editor-form {
@@ -16,8 +58,22 @@
   flex-direction: column;
 }
 
+.edit-form-container h2 {
+  margin: 0;
+  margin-bottom: 30px;
+  color: rgb(168, 76, 255);
+}
+
 .form-row-left {
   margin-bottom: 10px;
+}
+
+.form-row-left input {
+  padding: 12px;
+  font-size: large;
+  background-color: rgb(243, 242, 242);
+  border: none;
+  border-radius: 5px;
 }
 
 .form-row-right {
@@ -29,20 +85,54 @@
   width: 100%;
 }
 
+#todo-counter {
+  font-weight: 700;
+  color: cornflowerblue;
+}
+
+.todo-list-container h2 {
+  color: rgb(255, 120, 96);
+}
+
+.todo-list-container__num {
+  color: coral;
+}
+
+.list-filter-container {
+  margin: 16px 0;
+  font-weight: 400;
+  color: rgb(100, 205, 237);
+}
+
+.empty-list {
+  font-weight: 300;
+  color: crimson;
+}
+
 .item {
-  border: 1px dotted gray;
   padding-bottom: 10px;
   padding-left: 5px;
   padding-right: 5px;
   margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: rgb(222, 255, 222);
 }
 
 .item > h3 {
+  margin: 0;
+  padding: 10px;
+  font-size: large;
   font-weight: 400;
+  color: darkcyan;
+
 }
 
 .info-block {
   display: flex;
+  padding-left: 10px;
+  font-size: small;
+  color: rgb(156, 156, 156);
 }
 
 .status-panel {
@@ -59,31 +149,115 @@
   text-align: right;
 }
 
+#add-todo-button, 
+#clear-form-button {
+  min-width: 60px;
+  padding: 8px;
+  border-radius: 5px;
+  font-size: medium;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+#add-todo-button {
+  background-color: rgb(185, 110, 255);
+}
+
+#clear-form-button {
+  background-color: lightskyblue;
+}
+
 .control-block {
   text-align: right;
 }
 
 .view-button {
-  width: 125px;
-  color: aquamarine;
+  margin: 5px;
+  min-width: 120px;
+  padding: 8px;
+  border-radius: 5px;
+  font-size: medium;
+  border: none;
+  color: #fff;
+  background-color: rgb(0, 255, 170);
+  cursor: pointer;
 }
 
 .postpone-button {
-  width: 125px;
-  color: orange;
+  min-width: 120px;
+  padding: 8px;
+  margin: 5px;
+  border-radius: 5px;
+  font-size: medium;
+  border: none;
+  color: #fff;
+  background-color: rgb(255, 183, 50);
+  cursor: pointer;
 }
 
 .resume-button {
-  width: 125px;
-  color: green;
+  min-width: 120px;
+  padding: 8px;
+  margin: 5px;
+  border-radius: 5px;
+  font-size: medium;
+  border: none;
+  color: #fff;
+  background-color: rgb(55, 255, 55);
+  cursor: pointer;
 }
 
 .delete-button {
-  width: 125px;
-  color: red;
+  min-width: 120px;
+  padding: 8px;
+  margin: 5px;
+  border-radius: 5px;
+  font-size: medium;
+  border: none;
+  color: #fff;
+  background-color: rgb(255, 90, 90);
+  cursor: pointer;
 }
 
 .done-button {
-  width: 125px;
-  color: blue;
+  min-width: 120px;
+  padding: 8px;
+  margin: 5px;
+  border-radius: 5px;
+  font-size: medium;
+  border: none;
+  color: #fff;
+  background-color: rgb(100, 100, 255);
+  cursor: pointer;
+}
+
+.done-button:hover {
+  background: rgb(100, 100, 255, 0.3);
+  color: rgb(0, 0, 255);
+  box-shadow: inset 0 0 0 3px rgb(100, 100, 255);
+}
+
+.view-button:hover {
+  background: rgb(0, 255, 170, 0.3);
+  color: rgb(0, 170, 113);
+  box-shadow: inset 0 0 0 3px rgb(0, 255, 170);
+}
+
+.postpone-button:hover {
+  background: rgb(255, 183, 50, 0.3);
+  color: rgb(253, 165, 0);
+  box-shadow: inset 0 0 0 3px rgb(255, 183, 50);
+}
+
+.resume-button:hover {
+  background: rgb(55, 255, 55, 0.3);
+  color: rgb(0, 170, 0);
+  box-shadow: inset 0 0 0 3px rgb(55, 255, 55);
+}
+
+.delete-button:hover {
+  background: rgb(255, 90, 90, 0.3);
+  color: rgb(252, 0, 0);
+  box-shadow: inset 0 0 0 3px rgb(255, 90, 90);
 }
