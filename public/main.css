@@ -45,7 +45,7 @@ body {
 }
 
 #app-container {
-  width: 40%;
+  width: 60%;
   margin: auto;
   margin-top: 100px;
   padding: 20px;
@@ -61,6 +61,7 @@ body {
 .edit-form-container h2 {
   margin: 0;
   margin-bottom: 30px;
+  font-weight: 300;
   color: rgb(168, 76, 255);
 }
 
@@ -69,8 +70,8 @@ body {
 }
 
 .form-row-left input {
-  padding: 12px;
-  font-size: large;
+  padding: 10px;
+  font-size: 500;
   background-color: rgb(243, 242, 242);
   border: none;
   border-radius: 5px;
@@ -86,12 +87,14 @@ body {
 }
 
 #todo-counter {
-  font-weight: 700;
+  font-weight: 400;
   color: cornflowerblue;
 }
 
 .todo-list-container h2 {
+  font-weight: 300;
   color: rgb(255, 120, 96);
+  
 }
 
 .todo-list-container__num {
@@ -152,7 +155,7 @@ body {
 #add-todo-button, 
 #clear-form-button {
   min-width: 60px;
-  padding: 8px;
+  padding: 5px;
   border-radius: 5px;
   font-size: medium;
   border: none;
