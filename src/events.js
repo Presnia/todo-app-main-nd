@@ -1,5 +1,4 @@
 import { getTodoInput } from "./helpers.js";
-
 import todoStorage from "./model/todoStorage.js";
 import renderTodoList from "./view/todoList.js";
 
