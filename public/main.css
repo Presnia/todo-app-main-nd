@@ -4,14 +4,12 @@
   /* WebKit browsers */
   font-weight: 200;
   color: gray;
-  border-radius: 10px;
 }
 
 :-moz-placeholder {
   /* Mozilla Firefox 4 to 18 */
   font-weight: 300;
   color: gray;
-  border-radius: 10px;
 }
 
 ::-moz-placeholder {
@@ -76,6 +74,7 @@ body {
   font-size: 500;
   background-color: rgb(243, 242, 242);
   border: none;
+  outline: none !important;
   border-radius: 10px;
 }
 
