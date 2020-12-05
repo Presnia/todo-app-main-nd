@@ -116,6 +116,9 @@ function renderControlBlock(doc, todo) {
 export default function renderTodoPage(doc, todo) {
   const rootElement = clearRootElement(doc);
 
+  const appContainer = createElement(doc, "section");
+  appContainer.id = "app-container";
+
   const container = createElement(doc, "div");
   container.id = "todo-list";
 
@@ -126,7 +129,8 @@ export default function renderTodoPage(doc, todo) {
   todoItem.append(renderControlBlock(doc, todo));
 
   container.append(todoItem);
-  rootElement.append(container);
+  appContainer.append(container)
+  rootElement.append(appContainer);
 
   setupEventListeners(doc, getTodoEventHandlers(doc));
 }
