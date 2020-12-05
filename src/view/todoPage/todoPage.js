@@ -1,5 +1,10 @@
-import { createElement } from "../helpers.js";
-import todoState from "../model/todoState.js";
+import todoState from "../../model/todoState.js";
+
+import { createElement } from "../../helpers.js";
+import { clearRootElement } from "../../helpers.js";
+
+import { getTodoEventHandlers } from "../../events/todoEventHandlers.js";
+import { setupEventListeners } from "../../events.js";
 
 function renderTextBlock(doc, todo) {
   const textItem = createElement(doc, "h3");
@@ -58,10 +63,10 @@ function renderInfoBlock(doc, todo) {
   return infoBlock;
 }
 
-function renderButton(doc, actioName, todoId, className, title) {
+function renderButton(doc, actionName, todoId, className, title) {
   const button = createElement(doc, "button", className);
   button.innerHTML = title;
-  button.setAttribute("data-action", actioName);
+  button.setAttribute("data-action", actionName);
   button.setAttribute("data-id", todoId);
 
   return button;
@@ -71,7 +76,13 @@ function renderControlBlock(doc, todo) {
   const controlBlock = createElement(doc, "div", "control-block");
 
   controlBlock.append(
-    renderButton(doc, "view", todo.id, "view-button", "View")
+    renderButton(
+      doc,
+      "back-to-list",
+      todo.id,
+      "back-to-list-button",
+      "Back to list"
+    )
   );
 
   if (todo.state === todoState.InProcess) {
@@ -102,12 +113,20 @@ function renderControlBlock(doc, todo) {
   return controlBlock;
 }
 
-export default function renderTodoItem(doc, todo) {
+export default function renderTodoPage(doc, todo) {
+  const rootElement = clearRootElement(doc);
+
+  const container = createElement(doc, "div");
+  container.id = "todo-list";
+
   const todoItem = createElement(doc, "div", "item");
 
   todoItem.append(renderTextBlock(doc, todo));
   todoItem.append(renderInfoBlock(doc, todo));
   todoItem.append(renderControlBlock(doc, todo));
 
-  return todoItem;
+  container.append(todoItem);
+  rootElement.append(container);
+
+  setupEventListeners(doc, getTodoEventHandlers(doc));
 }
