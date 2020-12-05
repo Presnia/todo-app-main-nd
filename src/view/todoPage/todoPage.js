@@ -81,7 +81,7 @@ function renderControlBlock(doc, todo) {
       "back-to-list",
       todo.id,
       "back-to-list-button",
-      "Back to list"
+      "Back To List"
     )
   );
 

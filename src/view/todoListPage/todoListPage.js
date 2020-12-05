@@ -12,7 +12,7 @@ function renderAppContainer(doc) {
 }
 
 function renderTitle(doc, titleText) {
-  const h1 = createElement(doc, "h1");
+  const h1 = createElement(doc, "h2");
   h1.innerHTML = titleText;
 
   return h1;
@@ -20,7 +20,7 @@ function renderTitle(doc, titleText) {
 
 function renderTodoForm(doc) {
   const editorFormContainer = createElement(doc, "div", "edit-form-container");
-  editorFormContainer.append(renderTitle(doc, "Create Todo"));
+  editorFormContainer.append(renderTitle(doc, "Create ToDO"));
 
   const editorForm = createElement(doc, "div", "editor-form");
   const form = createElement(doc, "form");
@@ -29,6 +29,7 @@ function renderTodoForm(doc) {
 
   const textInput = createElement(doc, "input");
   textInput.type = "text";
+  textInput.placeholder = "Type your plans here"
   textInput.name = "todo-text";
   textInput.id = "todo-text";
 
@@ -58,10 +59,10 @@ function renderTodoForm(doc) {
 }
 
 function renderTodoTotal(doc, totalCount) {
-  const h2 = createElement(doc, "h2");
+  const h2 = createElement(doc, "h3");
   const textSpan = createElement(doc, "span");
   textSpan.id = "total-counter-text";
-  textSpan.innerHTML = "Total Todo Count:";
+  textSpan.innerHTML = "Total Count:";
 
   const totalSpan = createElement(doc, "span");
   totalSpan.id = "total-counter-number";
@@ -105,7 +106,7 @@ function renderTodoList(doc, allTodo) {
 
 function renderTodoListContent(doc, allTodo) {
   const listContainer = createElement(doc, "div", "todo-list-container");
-  listContainer.append(renderTitle(doc, "My ToDos"));
+  listContainer.append(renderTitle(doc, "ToDOs of mine"));
 
   listContainer.append(renderTodoTotal(doc, allTodo.length));
   listContainer.append(renderFilter(doc));
