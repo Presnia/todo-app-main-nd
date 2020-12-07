@@ -20,7 +20,7 @@ function renderStatusPanel(doc, todo) {
   return statusPanel;
 }
 
-function formatDateForPanel(prefix, date) {
+/* function formatDateForPanel(prefix, date) {
 
   let dd = date.getDate();
     if (dd < 10) dd = '0' + dd;
@@ -38,6 +38,18 @@ function formatDateForPanel(prefix, date) {
     if (ii < 10) ii = '0' + ii;
   
     return  `${prefix}: ${dd + '.' + mm + '.' + yy + ' - ' + hh + ":" + ii}`;
+} */
+function formatDateForPanel(prefix, date) {
+  function formatDigit(n) {
+    return n < 10 ? '0' + n : n;
+  }
+
+  const datePart = `${formatDigit(date.getDate())}.${
+                    formatDigit(date.getMonth() + 1)}.${date.getFullYear()}`;
+
+  const timePart = `${formatDigit(date.getHours())}:${formatDigit(date.getMinutes())}`;
+
+  return `${prefix}: ${datePart} - ${timePart}`;
 }
 
 function renderCreatedDatePanel(doc, todo) {
