@@ -26,11 +26,14 @@ function renderStatusPanel(doc, todo) {
 }
 
 function formatDateForPanel(prefix, date) {
-  const datePart = `${date.getDate()}.${
-    date.getMonth() + 1
-  }.${date.getFullYear()}`;
+  function formatDigit(n) {
+    return n < 10 ? '0' + n : n;
+  }
 
-  const timePart = `${date.getHours()}:${date.getMinutes()}`;
+  const datePart = `${formatDigit(date.getDate())}.${
+                    formatDigit(date.getMonth() + 1)}.${date.getFullYear()}`;
+
+  const timePart = `${formatDigit(date.getHours())}:${formatDigit(date.getMinutes())}`;
 
   return `${prefix}: ${datePart} - ${timePart}`;
 }

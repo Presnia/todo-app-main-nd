@@ -87,31 +87,38 @@ body {
 }
 
 #total-counter-text {
-  font-weight: 400;
-  color: cornflowerblue;
+  font-weight: 300;
+  font-size: large;
+  color: rgb(23, 104, 255);
 }
 
 .todo-list-container h2 {
   font-weight: 300;
-  color: rgb(253, 80, 49);
+  color: rgb(255, 38, 0);
   
 }
 
 #total-counter-number {
   padding-left: 5px;
   font-weight: 300;
-  color: coral;
+  font-size: 18px;
+  color: rgb(255, 38, 0);
 }
 
 .list-filter-container {
   margin: 16px 0;
-  font-weight: 400;
-  color: rgb(100, 205, 237);
+  font-weight: 300;
+  color: rgb(30, 255, 0);
+  cursor: pointer;
+}
+
+.list-filter-container:hover {
+  color: rgb(7, 202, 0);
 }
 
 .empty-list {
   font-weight: 300;
-  color: crimson;
+  color: rgb(255, 215, 104);
 }
 
 .item {
