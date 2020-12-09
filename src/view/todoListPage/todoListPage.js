@@ -29,7 +29,7 @@ function renderTodoForm(doc) {
 
   const textInput = createElement(doc, "input");
   textInput.type = "text";
-  textInput.placeholder = "Type your plans here";
+  textInput.placeholder = "Type your plans here"; 
   textInput.name = "todo-text";
   textInput.id = "todo-text";
 
@@ -75,10 +75,16 @@ function renderTodoTotal(doc, totalCount) {
 }
 
 function renderStatPage(doc) {
-  const filterDiv = createElement(doc, "div", "list-filter-container");
-  filterDiv.innerHTML = "Show statistics"; // implement as link <a>
+  const statDiv = createElement(doc, "div", "list-filter-container");
 
-  return filterDiv;
+  const statLink = createElement(doc, "a");
+  statLink.id = "stat-link";
+  statLink.href = '#';
+  statLink.innerHTML = "Show statistics";
+
+  statDiv.append(statLink);
+
+  return statDiv;
 }
 
 function renderEmptyPlaceholder(doc) {
