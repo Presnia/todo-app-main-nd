@@ -106,6 +106,7 @@ body {
 }
 
 .list-filter-container {
+  width: 16%;
   margin: 16px 0;
   font-weight: 300;
   color: rgb(30, 255, 0);

@@ -29,6 +29,7 @@ function renderTodoForm(doc) {
 
   const textInput = createElement(doc, "input");
   textInput.type = "text";
+  textInput.placeholder = "Type your plans here";
   textInput.name = "todo-text";
   textInput.id = "todo-text";
 
