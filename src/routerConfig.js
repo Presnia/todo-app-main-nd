@@ -4,6 +4,7 @@ import todoStorage from "./model/todoStorage.js";
 import renderTodoListPage from "./view/todoListPage/todoListPage.js";
 
 import renderTodoPage from "./view/todoPage/todoPage.js";
+import renderReportPage from "./view/reportPage/reportPage.js";
 
 let router = null;
 
@@ -26,7 +27,9 @@ export default (doc, appRootPath) => {
   });
 
   router.add(/^report$/, () => {
+    const parsedTodoId = parseInt(todoId);
     console.log("=> Navigating to report page");
+    renderReportPage(doc, todoStorage.getTodoById(parsedTodoId));
   });
 
   router.config({mode: "history", root: "/"});
