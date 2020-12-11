@@ -106,14 +106,18 @@ body {
 }
 
 .list-filter-container {
-  width: 16%;
   margin: 16px 0;
+}
+
+.list-filter-container a {
+  width: 16%;
   font-weight: 300;
   color: rgb(30, 255, 0);
+  text-decoration: none;
   cursor: pointer;
 }
 
-.list-filter-container:hover {
+.list-filter-container a:hover {
   color: rgb(7, 202, 0);
 }
 
