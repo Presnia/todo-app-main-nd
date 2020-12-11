@@ -27,9 +27,8 @@ export default (doc, appRootPath) => {
   });
 
   router.add(/^report$/, () => {
-    const parsedTodoId = parseInt(todoId);
     console.log("=> Navigating to report page");
-    renderReportPage(doc, todoStorage.getTodoById(parsedTodoId));
+    renderReportPage(doc);
   });
 
   router.config({mode: "history", root: "/"});

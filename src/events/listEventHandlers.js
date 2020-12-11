@@ -42,6 +42,13 @@ function navigateToTodo(doc, event) {
   router.navigate(`todo/${todoId}`);
 }
 
+function navigateToReport(doc) {
+  console.log(`Rendering todo screen for report`);
+
+  const router = configureRouter(doc);
+  router.navigate(`report`);
+}
+
 function notifyAboutTodoChange(doc) {
   const todoItemChanged = new Event("todo-item-changed");
   doc.dispatchEvent(todoItemChanged);
@@ -88,6 +95,10 @@ function todoListActionHandler(doc, event) {
       todoStorage.deleteById(todoId);
       notifyAboutDeletedTodo(doc);
       break;
+    case "report":
+      console.log(`Processing report action`);
+      break;
+
 
     default:
       console.log("Panic! Unknown Action.");
@@ -100,8 +111,14 @@ let boundTodoListActionHandler = null;
 let boundUpdateTotalTodoCount = null;
 let boundUpdateTodoList = null;
 let boundNavigateToTodo = null;
+let boundNavigateToReport = null;
 
 export function getListEventHandlers(doc) {
+  const linkA = document.getElementById('stat-link');
+  linkA.addEventListener('click', (e) => {
+    e.preventDefault();
+  })
+
   boundAddTodoHandler = 
     boundAddTodoHandler !== null 
       ? boundAddTodoHandler 
@@ -131,6 +148,11 @@ export function getListEventHandlers(doc) {
     boundNavigateToTodo !== null 
       ? boundNavigateToTodo 
       : navigateToTodo.bind(null, doc);
+
+  boundNavigateToReport = 
+    boundNavigateToReport !== null 
+      ? boundNavigateToReport 
+      : navigateToReport.bind(null, doc);
   return [
     {
       elementId: "add-todo-button",
@@ -146,6 +168,11 @@ export function getListEventHandlers(doc) {
       elementId: "todo-list",
       eventName: "click",
       handler: boundTodoListActionHandler,
+    },
+    {
+      elementId: "stat-link",
+      eventName: "click",
+      handler: boundNavigateToReport,
     },
     {
       element: doc,
