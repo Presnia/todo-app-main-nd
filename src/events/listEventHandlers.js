@@ -43,11 +43,10 @@ function navigateToTodo(doc, event) {
 }
 
 function navigateToReport(doc, event) {
-  const link = event.detail.linkA;
   const linkA = document.getElementById('stat-link');
-  linkA.addEventListener('click', (event) => {
-    event.preventDefault();
-  })
+  linkA.addEventListener('click', (e) => {
+    e.preventDefault();
+  });
   console.log(`Rendering todo screen for report`);
 
   const router = configureRouter(doc);

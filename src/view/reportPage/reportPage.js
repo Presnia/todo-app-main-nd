@@ -38,6 +38,10 @@ export default function renderReportPage(doc) {
     backToListBtn.innerHTML = "Back To List";
     backToListBtn.addEventListener("click", (e) => {
       e.preventDefault();
+
+    todoStorage.todoPosponed = 0;
+    todoStorage.todoDone = 0;
+    todoStorage.todoDeleted = 0;
       
       const router = configureRouter(doc, "/");
       router.navigate("/");
