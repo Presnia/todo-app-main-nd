@@ -42,11 +42,7 @@ function navigateToTodo(doc, event) {
   router.navigate(`todo/${todoId}`);
 }
 
-function navigateToReport(doc, event) {
-  const linkA = document.getElementById('stat-link');
-  linkA.addEventListener('click', (e) => {
-    e.preventDefault();
-  });
+function navigateToReport(doc) {
   console.log(`Rendering todo screen for report`);
 
   const router = configureRouter(doc);
