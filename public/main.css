@@ -136,6 +136,12 @@ body {
   background-color: rgb(222, 255, 222);
 }
 
+.item h2 {
+  padding: 10px;
+  font-weight: 300;
+  color: rgb(255, 38, 0);
+}
+
 .item > h3 {
   margin: 0;
   padding: 10px;
@@ -204,6 +210,36 @@ body {
 
 .control-block {
   text-align: right;
+}
+
+.item .title-statistics {
+  margin: 0;
+  border-bottom: 1px solid rgb(201, 201, 201);
+}
+
+.all-reports-block {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.all-reports-block button {
+  position: absolute;
+  right: 5px;
+  bottom: 4px;
+}
+
+.all-reports {
+  display: flex;
+  flex-direction: column;
+  font-weight: 300;
+  color: rgb(20, 170, 0);
+}
+
+.info {
+  padding: 2px 0;
 }
 
 .view-button {

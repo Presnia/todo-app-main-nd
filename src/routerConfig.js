@@ -31,8 +31,6 @@ export default (doc, appRootPath) => {
     renderReportPage(doc);
   });
 
-  router.config({mode: "history", root: "/"});
-
   router.listen();
 
   return router;
