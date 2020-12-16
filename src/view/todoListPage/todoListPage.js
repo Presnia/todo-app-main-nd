@@ -82,8 +82,6 @@ function renderStatPage(doc) {
   statLink.href = '#';
   statLink.innerHTML = "Show statistics";
 
-  statLink.addEventListener('click', e => e.preventDefault());
-
   statDiv.append(statLink);
 
   return statDiv;
