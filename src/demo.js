@@ -186,7 +186,7 @@ export function chainingDemo() {
     }); //no chaining
 }
 
-export function demo() {
+export function fullLoadScriptDemo() {
   loadScriptP("/src/probes/probe1.js")
   .then(() => loadScriptP("/src/probes/probe2.js"))
   .then(() => loadScriptP("/src/probes/probe3.js"))
@@ -198,4 +198,15 @@ export function demo() {
   .then(() => console.log(`After promise`))
   .catch((error) => console.log(error))
   .finally(() => console.log(`Always executed`));
+}
+
+async function asyncDemo() {
+  await delay(1000);
+  console.log(`After delay`);
+  console.log(`After promise`);
+
+}
+
+export function demo() {
+  asyncDemo();
 }
