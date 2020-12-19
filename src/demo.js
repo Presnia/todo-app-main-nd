@@ -130,7 +130,7 @@ export function promisifiedLoadScriptDemo() {
 };
 
 const delay = (ms) => 
-  new Promise((resolve) => setTimeout((_) => resolve(true), ms));
+  new Promise((resolve) => setTimeout((_) => resolve(1), ms));
 
 export function demo() {
   console.log(`Before delay`);
@@ -138,6 +138,27 @@ export function demo() {
   delay(1000)
   .then(() => console.log(`After delay`))
   .then(() => console.log(`After promise`));
+
+  delay(1500)
+    .then(result => {
+      console.log(`${result}`);
+      return result * 2;
+    })
+    .then(result => {
+      console.log(`${result}`);
+      return result * 2;
+    })
+    .then(result => {
+      console.log(`${result}`);
+      return result * 2;
+    })
+    .then(result => {
+      console.log(`${result}`);
+      return result * 2;
+    }) 
+    .then(result => {
+      console.log(`${result}`);
+    }); //chaining 
 }
 
 
