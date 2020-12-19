@@ -1,19 +1,10 @@
-function sayHi1() {
-  console.log('"Hi!!!!!');
-}
+function loadScript(scriptSrc) {
+  let script = document.createElement("script");
+  script.src = scriptSrc;
 
-function sayHi2() {
-  console.log('"Hello!!!!!');
-}
-
-function runner(callback1, callback2) {
-  const random = Math.random() * 100;
-  random < 50 ? callback1() : callback2();
+  document.head.append(script);
 }
 
 export function demo() {
-  console.log("demo"); 
-
-  runner(sayHi1, sayHi2);
-  
+  loadScript("/src/probe.js");
 }
