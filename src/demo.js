@@ -1,15 +1,16 @@
-function loadScript(scriptSrc) {
+function loadScript(scriptSrc, loadedCallback) {
   let script = document.createElement("script");
   script.src = scriptSrc;
 
-  script.onload = () => console.log(`### Script ${scriptSrc} loaded`);
+  script.onload = () => loadedCallback(scriptSrc);
 
   document.head.append(script);
 }
 
 export function demo() {
-  loadScript("/src/probe.js");
-
-  console.log("=> Script loaded...");
-  probe();
+  loadScript("/src/probe.js", (src) => {
+    console.log(`=> Script ${src} loaded...`);
+    
+    probe();
+  });
 }
