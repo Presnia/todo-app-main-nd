@@ -159,6 +159,31 @@ export function demo() {
     .then(result => {
       console.log(`${result}`);
     }); //chaining 
+
+  const p = delay(2000);
+
+  p.then(result => {
+      console.log(`${result}`);
+      return result * 2;
+    });
+
+  p.then(result => {
+      console.log(`${result}`);
+      return result * 2;
+    });
+
+  p.then(result => {
+      console.log(`${result}`);
+      return result * 2;
+    });
+
+  p.then(result => {
+      console.log(`${result}`);
+      return result * 2;
+    }); 
+    p.then(result => {
+      console.log(`${result}`);
+    }); //no chaining
 }
 
 
