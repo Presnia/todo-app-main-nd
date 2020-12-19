@@ -220,7 +220,7 @@ async function asyncLoadDemo() {
   console.log(`Always executed`);
 }
 
-export function demo() {
-  asyncDemo();
-  asyncLoadDemo();
+export async function demo() {
+  await asyncDemo();
+  await asyncLoadDemo();
 }
