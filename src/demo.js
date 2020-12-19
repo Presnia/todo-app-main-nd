@@ -126,13 +126,13 @@ export function promisifiedLoadScriptDemo() {
     error => console.log(error)
   );
   
-  console.log(`After promise`)
+  console.log(`After promise`);
 };
 
 const delay = (ms) => 
   new Promise((resolve) => setTimeout((_) => resolve(1), ms));
 
-export function demo() {
+export function chainingDemo() {
   console.log(`Before delay`);
 
   delay(1000)
@@ -186,4 +186,16 @@ export function demo() {
     }); //no chaining
 }
 
-
+export function demo() {
+  loadScriptP("/src/probes/probe1.js")
+  .then(() => loadScriptP("/src/probes/probe2.js"))
+  .then(() => loadScriptP("/src/probes/probe3.js"))
+  .then(() => {
+    probe1();
+    probe2();
+    probe3();
+  })
+  .then(() => console.log(`After promise`))
+  .catch((error) => console.log(error))
+  .finally(() => console.log(`Always executed`));
+}
