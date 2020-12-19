@@ -23,6 +23,8 @@ export function demo() {
     (src) => {
       console.log(`=> Script ${src} loaded...`);
       probe2(); 
+
+      console.log("I am ready to use probe1 and probe2")
     },
     (error) => {
       console.log("### Load failed...");
