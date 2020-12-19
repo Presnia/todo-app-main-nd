@@ -36,6 +36,29 @@ function scriptDemo() {
   console.log("==> This line is next after loadScript...");
 }
 
+export function timeoutDemo() {
+  console.log(`=> Start`);
+
+  const now = Date.now();
+
+  setTimeout(() => {
+    console.log(`Inside Timeout 1000 ...`);
+    const timeout1 = Date.now();
+    console.log(`1. Time passed ${timeout1 - now}`);
+  }, 1000);
+
+  console.log(`Between timeouts`)
+
+  setTimeout(() => {
+    console.log(`Inside Timeout 2000 ...`);
+    const timeout2 = Date.now();
+    console.log(`2. Time passed ${timeout2 - now}`);
+  }, 2000);
+
+  console.log(`=> Processing`);
+  console.log(`=> End`);
+}
+
 export function demo() {
   console.log(`=> Start`);
 
