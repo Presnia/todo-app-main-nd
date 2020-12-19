@@ -14,11 +14,13 @@ export function demo() {
     "/src/probes/probe1.js", 
     (src) => {
       console.log(`=> Script ${src} loaded...`);
-      probe(); 
+      probe1(); 
     },
     (error) => {
       console.log("### Load failed...");
       console.log(error);
     }
   );
+
+  console.log("==> This line is next after loadScript...")
 }

@@ -1,5 +1,5 @@
-console.log("===> Hello, I am probe!!!");
+console.log("===> Hello, I am probe 1 !!!");
 
-function probe() {
+function probe1 () {
   console.log("===> I am function inside probe.js");
 }
