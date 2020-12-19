@@ -47,7 +47,7 @@ export function timeoutDemo() {
     console.log(`1. Time passed ${timeout1 - now}`);
   }, 1000);
 
-  console.log(`Between timeouts`)
+  console.log(`Between timeouts`);
 
   setTimeout(() => {
     console.log(`Inside Timeout 2000 ...`);
@@ -57,27 +57,40 @@ export function timeoutDemo() {
 
   console.log(`=> Processing`);
   console.log(`=> End`);
-}
+};
 
 export function demo() {
-  console.log(`=> Start`);
+  // producing code
+  // consuming code
+  // promise
+  const promiseExample = new Promise((resolve, reject) => {
+    // executor function === producing code
+    // resolve(value) -> all is good
+    // reject(error) -> all is bad
+    // state:
+    // pending - right after creation
+    // fulfilled - right after resolve
+    // rejected - right after reject
+  });
 
-  const now = Date.now();
+  promiseExample.then(
+    (result) => {/* handle a successful result */},
+    (error) => {/* handle an error */}
+  );
 
-  setTimeout(() => {
-    console.log(`Inside Timeout 1000 ...`);
-    const timeout1 = Date.now();
-    console.log(`1. Time passed ${timeout1 - now}`);
-  }, 1000);
+  const delayPromise = new Promise((resolve, reject) => {
+    console.log(`Executor function run...`);
+    setTimeout(() => {
+      console.log("timeout passed");
+      resolve("done");
+      // reject(new Error("Whooops!!!!"));
+    }, 2000);
+  });
 
-  console.log(`Between timeouts`)
+  delayPromise.then(
+    (result) => { 
+      console.log(`Promise result ${result}`); 
+    });
 
-  setTimeout(() => {
-    console.log(`Inside Timeout 2000 ...`);
-    const timeout2 = Date.now();
-    console.log(`2. Time passed ${timeout2 - now}`);
-  }, 2000);
-
-  console.log(`=> Processing`);
-  console.log(`=> End`);
+  console.log(`After promise`);
 }
