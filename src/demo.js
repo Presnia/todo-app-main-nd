@@ -11,6 +11,21 @@ function loadScript(scriptSrc, loadedCallback, errorCallback) {
   document.head.append(script);
 }
 
+function loadScriptP(scriptSrc) {
+  return new Promise((resolve, reject) => {
+let script = document.createElement("script");
+  script.src = scriptSrc;
+
+  script.onload = () => resolve(scriptSrc);
+  script.onerror = () =>
+    reject(new Error(`Script ${scriptSrc} loading failed`));
+
+  document.head.append(script);
+  })
+
+  
+}
+
 function probe1loaded(src) {
   console.log(`=> Script ${src} loaded...`);
   probe1();
@@ -59,7 +74,7 @@ export function timeoutDemo() {
   console.log(`=> End`);
 };
 
-export function demo() {
+export function promiseBasicDemo() {
   // producing code
   // consuming code
   // promise
@@ -100,4 +115,29 @@ export function demo() {
   );
 
   console.log(`After promise`);
+};
+
+export function promisifiedLoadScriptDemo() {
+  loadScriptP("/src/probes/probe1.js").then(
+    src => {
+      console.log(`Script ${src}`);
+      probe1();
+    },
+    error => console.log(error)
+  );
+  
+  console.log(`After promise`)
+};
+
+const delay = (ms) => 
+  new Promise((resolve) => setTimeout((_) => resolve(true), ms));
+
+export function demo() {
+  console.log(`Before delay`);
+
+  delay(1000)
+  .then(() => console.log(`After delay`))
+  .then(() => console.log(`After promise`));
 }
+
+
