@@ -11,31 +11,34 @@ function loadScript(scriptSrc, loadedCallback, errorCallback) {
   document.head.append(script);
 }
 
+function probe1loaded(src) {
+  console.log(`=> Script ${src} loaded...`);
+      probe1(); 
+
+  loadScript(
+    "/src/probes/probe2.js", 
+    probe2loaded,
+    probeError
+  );
+};
+
+function probe2loaded(src) {
+  console.log(`=> Script ${src} loaded...`);
+  probe2(); 
+
+  console.log("I am ready to use probe1 and probe2");
+};
+
+function probeError(error) {
+  console.log("### Load failed...");
+  console.log(error);
+}
+
 export function demo() {
   loadScript(
     "/src/probes/probe1.js", 
-    (src) => {
-      console.log(`=> Script ${src} loaded...`);
-      probe1(); 
-
-      loadScript(
-    "/src/probes/probe2.js", 
-    (src) => {
-      console.log(`=> Script ${src} loaded...`);
-      probe2(); 
-
-      console.log("I am ready to use probe1 and probe2")
-    },
-    (error) => {
-      console.log("### Load failed...");
-      console.log(error);
-    }
-  );
-    },
-    (error) => {
-      console.log("### Load failed...");
-      console.log(error);
-    }
+    probe1loaded,
+    probeError
   );
 
   console.log("==> This line is next after loadScript...")
