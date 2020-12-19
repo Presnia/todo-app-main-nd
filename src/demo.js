@@ -82,15 +82,22 @@ export function demo() {
     console.log(`Executor function run...`);
     setTimeout(() => {
       console.log("timeout passed");
-      resolve("done");
-      // reject(new Error("Whooops!!!!"));
+      const randomValue = parseInt(Math.random() * 100);
+      console.log(`edge is ${randomValue}`);
+      randomValue <= 50 
+        ? resolve("done") 
+        : reject(new Error("Whooops!!!!"));
     }, 2000);
   });
 
   delayPromise.then(
     (result) => { 
       console.log(`Promise result ${result}`); 
-    });
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
 
   console.log(`After promise`);
 }
