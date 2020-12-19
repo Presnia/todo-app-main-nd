@@ -204,9 +204,23 @@ async function asyncDemo() {
   await delay(1000);
   console.log(`After delay`);
   console.log(`After promise`);
+}
 
+async function asyncLoadDemo() {
+  await loadScriptP("/src/probes/probe1.js");
+  await loadScriptP("/src/probes/probe2.js");
+  await loadScriptP("/src/probes/probe3.js");
+
+  probe1();
+  probe2();
+  probe3();
+
+  console.log(`After promise`);
+  // .catch((error) => console.log(error))
+  console.log(`Always executed`);
 }
 
 export function demo() {
   asyncDemo();
+  asyncLoadDemo();
 }
