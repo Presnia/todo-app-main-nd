@@ -17,18 +17,18 @@ export function demo() {
     (src) => {
       console.log(`=> Script ${src} loaded...`);
       probe1(); 
+
+      loadScript(
+    "/src/probes/probe2.js", 
+    (src) => {
+      console.log(`=> Script ${src} loaded...`);
+      probe2(); 
     },
     (error) => {
       console.log("### Load failed...");
       console.log(error);
     }
   );
-
-  loadScript(
-    "/src/probes/probe2.js", 
-    (src) => {
-      console.log(`=> Script ${src} loaded...`);
-      probe2(); 
     },
     (error) => {
       console.log("### Load failed...");
