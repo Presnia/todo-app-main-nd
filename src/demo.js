@@ -1,4 +1,6 @@
 function loadScript(scriptSrc, loadedCallback, errorCallback) {
+  console.log("Loading script...")
+
   let script = document.createElement("script");
   script.src = scriptSrc;
 
