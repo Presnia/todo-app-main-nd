@@ -22,5 +22,17 @@ export function demo() {
     }
   );
 
+  loadScript(
+    "/src/probes/probe2.js", 
+    (src) => {
+      console.log(`=> Script ${src} loaded...`);
+      probe2(); 
+    },
+    (error) => {
+      console.log("### Load failed...");
+      console.log(error);
+    }
+  );
+
   console.log("==> This line is next after loadScript...")
 }
