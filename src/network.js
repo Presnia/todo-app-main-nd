@@ -99,8 +99,8 @@ async function patchTodo(todoId, patch) {
 
   async function postponeById(id, todo) {
     todo.postpone();
-    this.todoPosponed += 1;
-    this.todoResumed -= 1;
+    /* this.todoPosponed += 1;
+    this.todoResumed -= 1; */
     const patch = { state: todo.state };
     return await patchTodo(id, patch);
   }
@@ -115,9 +115,7 @@ async function patchTodo(todoId, patch) {
   async function completeById(id, todo) {
     todo.done();
     this.todoDone += 1;
-    const patch = { 
-      state: todo.state, 
-      dateCompleted = todo.dateCompleted };
+    const patch = { state: todo.state, dateCompleted: todo.dateCompleted };
     return await patchTodo(id, patch);
   }
 
@@ -136,8 +134,9 @@ export async function network() {
   const todo = convertToTodo(todoDTO);
 
   console.log(todo);
-  todo.done();
+  postponeById(changedTodoId, todo);
   console.log(todo); 
 
-  const id = await updateTodo(changedTodoId, todo);
+  const id = await patchTodo(changedTodoId, todo);
+  console.log(`=> ${id}`);
 }
