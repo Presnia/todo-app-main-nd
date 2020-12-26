@@ -1,5 +1,6 @@
 import Todo from "./todo.js";
 
+const apiRoot = "http://localhost:3000";
 class TodoStorage {
   constructor() {
     this.storage = {};
@@ -11,12 +12,58 @@ class TodoStorage {
     this.todoDeleted = 0;
   }
 
-  createTodo(text) {
-    const newTodo = new Todo(text);
-    this.storage[this.currentId] = newTodo;
-    this.currentId += 1;
-    this.todoCount += 1;
+  async createTodo(todoText) {
+  const newTodo = new Todo(todoText);
+
+  this.storage[this.currentId] = newTodo;
+  this.currentId += 1;
+  this.todoCount += 1;
+
+  const addResponse = await fetch (
+    `${apiRoot}/todos/`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newTodo),
+    }
+  );
+
+  if (!addResponse.ok) {
+    console.log(`Error with status ${addResponse.status}`);
+    return;
   }
+
+  console.log(`OK with status ${addResponse.status}`);
+
+  const addedTodo = await addResponse.json();
+
+  return addedTodo.id;
+};
+
+  async getAllTodo() {
+  const allTodoResponse = await fetch (`${apiRoot}/todos/`);
+
+  if (!allTodoResponse.ok) {
+    console.log(`Error with status ${allTodoResponse.status}`);
+    return;
+  }
+
+  console.log(`OK with status ${allTodoResponse.status}`);
+
+  return await allTodoResponse.json();
+};
+
+  convertToTodo(todoDTO) {
+  const newTodo = new Todo(todoDTO.text);
+  newTodo.state = todoDTO.state;
+  newTodo.dateCreated = new Date(todoDTO.dateCreated);
+  newTodo.dateCompleted = 
+    todoDTO.dateCompleted === null ? null : new Date(todoDTO.dateCreated);
+
+  return newTodo;
+}
 
   totalTodoCount() {
     return this.todoCount;
@@ -45,6 +92,15 @@ class TodoStorage {
         todo.dateCompleted !== null ? new Date(todo.dateCompleted) : null,
     };
   }
+
+  /* async postponeById(id, todo) {
+    const todo = this.storage[id];
+    todo.postpone();
+    const patch = { state: todo.state };
+    this.todoPosponed += 1;
+    this.todoResumed -= 1;
+    return await patchTodo(id, patch);
+  } */
 
   postponeById(id) {
     const todo = this.storage[id];

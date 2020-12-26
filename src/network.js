@@ -99,8 +99,6 @@ async function patchTodo(todoId, patch) {
 
   async function postponeById(id, todo) {
     todo.postpone();
-    /* this.todoPosponed += 1;
-    this.todoResumed -= 1; */
     const patch = { state: todo.state };
     return await patchTodo(id, patch);
   }

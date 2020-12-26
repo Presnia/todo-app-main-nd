@@ -84,6 +84,7 @@ body {
 
 #todo-text {
   width: 100%;
+  font-size: 16px;
 }
 
 #total-counter-text {
