@@ -42,29 +42,6 @@ class TodoStorage {
   return addedTodo.id;
 };
 
-  async getAllTodo() {
-  const allTodoResponse = await fetch (`${apiRoot}/todos/`);
-
-  if (!allTodoResponse.ok) {
-    console.log(`Error with status ${allTodoResponse.status}`);
-    return;
-  }
-
-  console.log(`OK with status ${allTodoResponse.status}`);
-
-  return await allTodoResponse.json();
-};
-
-  convertToTodo(todoDTO) {
-  const newTodo = new Todo(todoDTO.text);
-  newTodo.state = todoDTO.state;
-  newTodo.dateCreated = new Date(todoDTO.dateCreated);
-  newTodo.dateCompleted = 
-    todoDTO.dateCompleted === null ? null : new Date(todoDTO.dateCreated);
-
-  return newTodo;
-}
-
   totalTodoCount() {
     return this.todoCount;
   }
@@ -93,39 +70,118 @@ class TodoStorage {
     };
   }
 
-  /* async postponeById(id, todo) {
+  async updateTodo(todoId, todo) {
+  const updateResponse = await fetch (`${apiRoot}/todos/${todoId}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(todo),
+    }
+  );
+
+  if (!updateResponse.ok) {
+    console.log(`Error with status ${updateResponse.status}`);
+    return;
+  }
+
+  console.log(`OK with status ${updateResponse.status}`);
+
+  const updatedTodo = await updateResponse.json();
+
+  return updatedTodo.id;
+}
+
+  async patchTodo(todoId, patch) {
+    const patchResponse = await fetch (`${apiRoot}/todos/${todoId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(patch),
+      }
+    );
+
+    if (!patchResponse.ok) {
+      console.log(`Error with status ${patchResponse.status}`);
+      return;
+    }
+
+    console.log(`OK with status ${patchResponse.status}`);
+
+    const patchedTodo = await patchResponse.json();
+
+    return patchedTodo.id;
+  }
+
+  async deleteTodo(todoId, todo) {
+    const deleteResponse = await fetch (`${apiRoot}/todos/${todoId}`,
+      {
+        method: "DELETE",
+        body: JSON.stringify(todo),
+      }
+    );
+
+    if (!deleteResponse.ok) {
+      console.log(`Error with status ${deleteResponse.status}`);
+      return;
+    }
+
+    console.log(`OK with status ${deleteResponse.status}`);
+
+    const deletedTodo = await deleteResponse.json();
+
+    return deletedTodo.id;
+  }
+
+  async postponeById(id) {
     const todo = this.storage[id];
     todo.postpone();
     const patch = { state: todo.state };
     this.todoPosponed += 1;
     this.todoResumed -= 1;
     return await patchTodo(id, patch);
-  } */
-
-  postponeById(id) {
-    const todo = this.storage[id];
-    todo.postpone();
-    this.todoPosponed += 1;
-    this.todoResumed -= 1;
   }
 
-  resumeById(id) {
+  async resumeById(id) {
     const todo = this.storage[id];
     todo.resume();
+    const patch = { state: todo.state };
     this.todoPosponed -= 1;
+    return await patchTodo(id, patch);
   }
 
-  completeById(id) {
+  async completeById(id) {
     const todo = this.storage[id];
     todo.done();
+    const patch = { state: todo.state, dateCompleted: todo.dateCompleted };
     this.todoDone += 1;
+    return await patchTodo(id, patch);
   }
 
-  deleteById(id) {
+  async deleteById(id) {
     delete this.storage[id];
     this.todoCount -= 1;
     this.todoDeleted += 1;
+    return await deleteTodo(id);
   }
+
+  /* async getAllTodo() {
+    const allTodoResponse = await fetch (`${apiRoot}/todos/`);
+
+    if (!allTodoResponse.ok) {
+      console.log(`Error with status ${allTodoResponse.status}`);
+      return;
+    }
+
+    console.log(`OK with status ${allTodoResponse.status}`);
+
+    return await allTodoResponse.json();
+  };
+
+  allTodo = getAllTodo(); */
 
   getAllTodo() {
     return Object.keys(this.storage).map((key) => {

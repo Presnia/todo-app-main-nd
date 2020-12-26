@@ -105,14 +105,14 @@ async function patchTodo(todoId, patch) {
 
   async function resumeById(id, todo) {
     todo.resume();
-    // this.todoPosponed -= 1;
+
     const patch = { state: todo.state };
     return await patchTodo(id, patch);
   }
 
   async function completeById(id, todo) {
     todo.done();
-    // this.todoDone += 1;
+
     const patch = { state: todo.state, dateCompleted: todo.dateCompleted };
     return await patchTodo(id, patch);
   }
