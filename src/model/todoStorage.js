@@ -58,16 +58,24 @@ class TodoStorage {
     return this.todoDeleted;
   }
 
-  getTodoById(id) {
-    const todo = this.storage[id];
-    return {
-      id,
-      text: todo.text,
-      state: todo.state,
-      dateCreated: new Date(todo.dateCreated),
-      dateCompleted:
-        todo.dateCompleted !== null ? new Date(todo.dateCompleted) : null,
-    };
+  async getTodoById(todoId, todo) {
+    const getResponse = await fetch (`${apiRoot}/todos/${todoId}`,
+      {
+        method: "GET",
+        body: JSON.stringify(todo),
+      }
+    );
+
+    if (!getResponse.ok) {
+      console.log(`Error with status ${getResponse.status}`);
+      return;
+    }
+
+    console.log(`OK with status ${getResponse.status}`);
+
+    const recievedTodo = await getResponse.json();
+
+    return recievedTodo.id;
   }
 
   async updateTodo(todoId, todo) {
