@@ -3,21 +3,35 @@ import Todo from "./todo.js";
 const apiRoot = "http://localhost:3000";
 class TodoStorage {
   constructor() {
-    this.storage = {};
-
-    this.currentId = 0;
     this.todoCount = 0;
     this.todoPosponed = 0;
     this.todoDone = 0;
     this.todoDeleted = 0;
   }
 
+  convertToViewDto(todoDto) {
+    return {
+      id: todoDto.id,
+      text: todoDto.text,
+      state: todoDto.state,
+      dateCreated: new Date(todoDto.dateCreated),
+      dateCompleted:
+        todoDto.dateCompleted !== null ? new Date(todoDto.dateCompleted) : null,
+    };
+  }
+
+  convertToTodo(todoDto) {
+    const todo = new Todo(todoDto.text);
+    todo.state = todoDto.state;
+    todo.dateCreated = new Date(todoDto.dateCreated);
+    todo.dateCompleted =
+      todoDto.dateCompleted === null ? null : new Date(todoDto.dateCompleted);
+
+    return todo;
+  }
+
   async createTodo(todoText) {
   const newTodo = new Todo(todoText);
-
-  this.storage[this.currentId] = newTodo;
-  this.currentId += 1;
-  this.todoCount += 1;
 
   const addResponse = await fetch (
     `${apiRoot}/todos/`,
@@ -37,10 +51,25 @@ class TodoStorage {
 
   console.log(`OK with status ${addResponse.status}`);
 
-  const addedTodo = await addResponse.json();
-
-  return addedTodo.id;
+  this.todoCount += 1;
 };
+
+async getTodoDtoById(id) {
+    const todoResponse = await fetch(`${apiRoot}/todos/${id}`);
+
+    if (!todoResponse.ok) {
+      console.log(`Error with status ${todoResponse.status}`);
+      return;
+    }
+
+    console.log(`Ok with status ${todoResponse.status}`);
+
+    return await todoResponse.json();
+  }
+
+  async getTodoById(id) {
+    return this.convertToViewDto(await this.getTodoDtoById(id));
+  }
 
   totalTodoCount() {
     return this.todoCount;
@@ -58,24 +87,27 @@ class TodoStorage {
     return this.todoDeleted;
   }
 
-  async getTodoById(todoId, todo) {
-    const getResponse = await fetch (`${apiRoot}/todos/${todoId}`,
+  async patchTodo(todoId, patch) {
+    const patchResponse = await fetch (`${apiRoot}/todos/${todoId}`,
       {
-        method: "GET",
-        body: JSON.stringify(todo),
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(patch),
       }
     );
 
-    if (!getResponse.ok) {
-      console.log(`Error with status ${getResponse.status}`);
+    if (!patchResponse.ok) {
+      console.log(`Error with status ${patchResponse.status}`);
       return;
     }
 
-    console.log(`OK with status ${getResponse.status}`);
+    console.log(`OK with status ${patchResponse.status}`);
 
-    const recievedTodo = await getResponse.json();
+    const patchedTodo = await patchResponse.json();
 
-    return recievedTodo.id;
+    return patchedTodo.id;
   }
 
   async updateTodo(todoId, todo) {
@@ -101,109 +133,62 @@ class TodoStorage {
   return updatedTodo.id;
 }
 
-  async patchTodo(todoId, patch) {
-    const patchResponse = await fetch (`${apiRoot}/todos/${todoId}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(patch),
-      }
-    );
-
-    if (!patchResponse.ok) {
-      console.log(`Error with status ${patchResponse.status}`);
-      return;
-    }
-
-    console.log(`OK with status ${patchResponse.status}`);
-
-    const patchedTodo = await patchResponse.json();
-
-    return patchedTodo.id;
+  async postponeById(id) {
+    const todo = this.convertToTodo(this.getTodoDtoById(id));
+    todo.postpone();
+    const patch = { state: todo.state };
+    this.todoPosponed += 1;
+    this.todoResumed -= 1;
+    return await this.patchTodo(id, patch);
   }
 
-  async deleteTodo(todoId, todo) {
-    const deleteResponse = await fetch (`${apiRoot}/todos/${todoId}`,
-      {
-        method: "DELETE",
-        body: JSON.stringify(todo),
-      }
-    );
+  async resumeById(id) {
+    const todo = this.convertToTodo(this.getTodoDtoById(id));
+    todo.resume();
+    const patch = { state: todo.state };
+    this.todoPosponed -= 1;
+    return await this.patchTodo(id, patch);
+  }
+
+  async completeById(id) {
+    const todo = this.convertToTodo(this.getTodoDtoById(id));
+    todo.done();
+    const patch = { state: todo.state, dateCompleted: todo.dateCompleted };
+    this.todoDone += 1;
+    return await this.patchTodo(id, patch);
+  }
+
+  async deleteById(id) {
+    const deleteResponse = await fetch(`${apiRoot}/todos/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     if (!deleteResponse.ok) {
       console.log(`Error with status ${deleteResponse.status}`);
       return;
     }
 
-    console.log(`OK with status ${deleteResponse.status}`);
-
-    const deletedTodo = await deleteResponse.json();
-
-    return deletedTodo.id;
+    console.log(`Ok with status ${deleteResponse.status}`);
   }
 
-  async postponeById(id) {
-    const todo = this.storage[id];
-    todo.postpone();
-    const patch = { state: todo.state };
-    this.todoPosponed += 1;
-    this.todoResumed -= 1;
-    return await patchTodo(id, patch);
-  }
-
-  async resumeById(id) {
-    const todo = this.storage[id];
-    todo.resume();
-    const patch = { state: todo.state };
-    this.todoPosponed -= 1;
-    return await patchTodo(id, patch);
-  }
-
-  async completeById(id) {
-    const todo = this.storage[id];
-    todo.done();
-    const patch = { state: todo.state, dateCompleted: todo.dateCompleted };
-    this.todoDone += 1;
-    return await patchTodo(id, patch);
-  }
-
-  async deleteById(id) {
-    delete this.storage[id];
-    this.todoCount -= 1;
-    this.todoDeleted += 1;
-    return await deleteTodo(id);
-  }
-
-  /* async getAllTodo() {
-    const allTodoResponse = await fetch (`${apiRoot}/todos/`);
+  async getAllTodo() {
+    const allTodoResponse = await fetch(`${apiRoot}/todos/`);
 
     if (!allTodoResponse.ok) {
       console.log(`Error with status ${allTodoResponse.status}`);
       return;
     }
 
-    console.log(`OK with status ${allTodoResponse.status}`);
+    console.log(`Ok with status ${allTodoResponse.status}`);
 
-    return await allTodoResponse.json();
-  };
+    const returnedDto = await allTodoResponse.json();
 
-  allTodo = getAllTodo(); */
+    this.todoCount = returnedDto.length;
 
-  getAllTodo() {
-    return Object.keys(this.storage).map((key) => {
-      const todo = this.storage[key];
-
-      return {
-        id: key,
-        text: todo.text,
-        state: todo.state,
-        dateCreated: new Date(todo.dateCreated),
-        dateCompleted:
-          todo.dateCompleted !== null ? new Date(todo.dateCompleted) : null,
-      };
-    });
+    return returnedDto.map((dto) => this.convertToViewDto(dto));
   }
 }
 
