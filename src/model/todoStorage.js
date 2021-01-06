@@ -188,7 +188,7 @@ async getTodoDtoById(id) {
 
     this.todoCount = returnedDto.length;
 
-    return returnedDto.map((dto) => this.convertToViewDto(dto));
+    return returnedDto.map((dto) => this.convertToViewDto(dto)).reverse();
   }
 }
 
