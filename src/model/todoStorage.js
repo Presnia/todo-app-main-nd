@@ -4,7 +4,7 @@ const apiRoot = "http://localhost:3000";
 class TodoStorage {
   constructor() {
     this.todoCount = 0;
-    this.todoPosponed = 0;
+    this.todoPostponed = 0;
     this.todoDone = 0;
     this.todoDeleted = 0;
   }
@@ -75,8 +75,8 @@ async getTodoDtoById(id) {
     return this.todoCount;
   }
 
-  totalTodoPosponed() {
-    return this.todoPosponed;
+  totaltodoPostponed() {
+    return this.todoPostponed;
   }
 
   totalTodoDone() {
@@ -110,35 +110,15 @@ async getTodoDtoById(id) {
     return patchedTodo.id;
   }
 
-  async updateTodo(todoId, todo) {
-  const updateResponse = await fetch (`${apiRoot}/todos/${todoId}`,
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(todo),
-    }
-  );
-
-  if (!updateResponse.ok) {
-    console.log(`Error with status ${updateResponse.status}`);
-    return;
-  }
-
-  console.log(`OK with status ${updateResponse.status}`);
-
-  const updatedTodo = await updateResponse.json();
-
-  return updatedTodo.id;
-}
-
   async postponeById(id) {
     const todo = this.convertToTodo(this.getTodoDtoById(id));
     todo.postpone();
     const patch = { state: todo.state };
-    this.todoPosponed += 1;
-    this.todoResumed -= 1;
+    if (todo.state == postponed) {
+      this.todoPostponed += 1;
+      this.todoResumed -= 1;
+    }
+    
     return await this.patchTodo(id, patch);
   }
 
@@ -146,7 +126,7 @@ async getTodoDtoById(id) {
     const todo = this.convertToTodo(this.getTodoDtoById(id));
     todo.resume();
     const patch = { state: todo.state };
-    this.todoPosponed -= 1;
+    this.todoPostponed -= 1;
     return await this.patchTodo(id, patch);
   }
 
