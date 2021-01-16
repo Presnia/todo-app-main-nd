@@ -151,9 +151,15 @@ async getTodoDtoById(id) {
 
     const returnedDto = await allTodoResponse.json();
 
-    this.todoDone = returnedDto.filter(todo => todo.state === "done").length;
-    this.todoPostponed = returnedDto.filter(todo => todo.state === "postponed").length;
-    this.todoInProgress = returnedDto.filter(todo => todo.state === "in-process").length;
+    this.todoDone = 0;
+    this.todoPostponed = 0;
+    this.todoInProgress = 0;
+
+    returnedDto.forEach(todo => {
+      if (todo.state === "done") this.todoDone += 1;
+      if (todo.state === "postponed") this.todoPostponed += 1;
+      if (todo.state === "in-process") this.todoInProgress += 1;
+    })
 
     this.todoCount = returnedDto.length;
 
