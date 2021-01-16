@@ -72,6 +72,10 @@ async getTodoDtoById(id) {
     return this.todoCount;
   }
 
+  totalStats() {
+    return this.stats;
+  }
+
   async patchTodo(todoId, patch) {
     const patchResponse = await fetch (`${apiRoot}/todos/${todoId}`,
       {
