@@ -4,9 +4,6 @@ const apiRoot = "http://localhost:5000";
 class TodoStorage {
   constructor() {
     this.todoCount = 0;
-    this.todoPostponed = 0;
-    this.todoDone = 0;
-    this.todoDeleted = 0;
   }
 
   convertToViewDto(todoDto) {
@@ -75,18 +72,6 @@ async getTodoDtoById(id) {
     return this.todoCount;
   }
 
-  totaltodoPostponed() {
-    return this.todoPostponed;
-  }
-
-  totalTodoDone() {
-    return this.todoDone;
-  }
-
-  totalTodoDeleted() {
-    return this.todoDeleted;
-  }
-
   async patchTodo(todoId, patch) {
     const patchResponse = await fetch (`${apiRoot}/todos/${todoId}`,
       {
@@ -114,10 +99,8 @@ async getTodoDtoById(id) {
     const todo = this.convertToTodo(this.getTodoDtoById(id));
     todo.postpone();
     const patch = { state: todo.state };
-    if (todo.state == postponed) {
-      this.todoPostponed += 1;
-      this.todoResumed -= 1;
-    }
+    this.todoPostponed += 1;
+    this.todoResumed -= 1;
     
     return await this.patchTodo(id, patch);
   }
@@ -151,6 +134,8 @@ async getTodoDtoById(id) {
       return;
     }
 
+    this.todoCount -= 1;
+
     console.log(`Ok with status ${deleteResponse.status}`);
   }
 
@@ -165,6 +150,10 @@ async getTodoDtoById(id) {
     console.log(`Ok with status ${allTodoResponse.status}`);
 
     const returnedDto = await allTodoResponse.json();
+
+    this.todoDone = returnedDto.filter(todo => todo.state === "done").length;
+    this.todoPostponed = returnedDto.filter(todo => todo.state === "postponed").length;
+    this.todoInProgress = returnedDto.filter(todo => todo.state === "in-process").length;
 
     this.todoCount = returnedDto.length;
 

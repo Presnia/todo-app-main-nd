@@ -26,13 +26,13 @@ export default function renderReportPage(doc) {
   totalCount.innerHTML = `Total ToDOs Count: ${todoStorage.todoCount}`
 
   const postponed = createElement(doc, "span", "postponed-info info");
-  postponed.innerHTML = `ToDOs Postponed: ${todoStorage.todoPosponed}`;
+  postponed.innerHTML = `ToDOs Postponed: ${todoStorage.todoPostponed}`;
 
   const done = createElement(doc, "span", "done-info info");
   done.innerHTML = `ToDOs Done: ${todoStorage.todoDone}`;
 
-  const deleted = createElement(doc, "span", "deleted-info info");
-  deleted.innerHTML = `ToDOs Deleted: ${todoStorage.todoDeleted}`;
+  const inprocess = createElement(doc, "span", "inprocess-info info");
+  inprocess.innerHTML = `ToDOs In Process: ${todoStorage.todoInProgress}`;
 
   const backToListBtn = createElement(doc, "button", "back-to-list-button");
     backToListBtn.innerHTML = "Back To List";
@@ -47,7 +47,7 @@ export default function renderReportPage(doc) {
       router.navigate("/");
     });
 
-  allReports.append(totalCount, postponed, done, deleted)
+  allReports.append(totalCount, postponed, done, inprocess)
   allReportsBlock.append(allReports, backToListBtn)
   todoItem.append(info, allReportsBlock);
   container.append(todoItem);
