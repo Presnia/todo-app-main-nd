@@ -23,16 +23,16 @@ export default function renderReportPage(doc) {
   const allReportsBlock = createElement(doc, "div", "all-reports-block");
 
   const totalCount = createElement(doc, "span", "total-info info");
-  totalCount.innerHTML = `Total ToDOs Count: ${todoStorage.todoCount}`
+  totalCount.innerHTML = `Total ToDOs Count: ${todoStorage.stats.total}`
 
   const postponed = createElement(doc, "span", "postponed-info info");
-  postponed.innerHTML = `ToDOs Postponed: ${todoStorage.todoPostponed}`;
+  postponed.innerHTML = `ToDOs Postponed: ${todoStorage.stats.postponed}`;
 
   const done = createElement(doc, "span", "done-info info");
-  done.innerHTML = `ToDOs Done: ${todoStorage.todoDone}`;
+  done.innerHTML = `ToDOs Done: ${todoStorage.stats.done}`;
 
   const inprocess = createElement(doc, "span", "inprocess-info info");
-  inprocess.innerHTML = `ToDOs In Process: ${todoStorage.todoInProgress}`;
+  inprocess.innerHTML = `ToDOs In Process: ${todoStorage.stats.inProcess}`;
 
   const backToListBtn = createElement(doc, "button", "back-to-list-button");
     backToListBtn.innerHTML = "Back To List";
