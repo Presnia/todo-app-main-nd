@@ -14,6 +14,19 @@ async function addTodoHandler(doc) {
   doc.dispatchEvent(todoItemCreated);
 }
 
+async function addTodoInputHandler(doc, event) {
+  event.preventDefault();
+  if (event.keyCode === 13) {
+    console.log("Add input keydown");
+    const todoTextInput = getTodoInput(doc);
+    await todoStorage.createTodo(todoTextInput.value);
+
+    const todoItemCreated = new Event("todo-item-created");
+    doc.dispatchEvent(todoItemCreated);
+  }
+  
+}
+
 function clearFormHandler(doc) {
   console.log("Clear button clicked");
   const todoTextInput = getTodoInput(doc);
@@ -107,6 +120,7 @@ async function todoListActionHandler(doc, event) {
 }
 
 let boundAddTodoHandler = null;
+let boundAddTodoInputHandler = null;
 let boundClearFormHandler = null;
 let boundTodoListActionHandler = null;
 let boundUpdateTotalTodoCount = null;
@@ -120,6 +134,11 @@ export function getListEventHandlers(doc) {
     boundAddTodoHandler !== null 
       ? boundAddTodoHandler 
       : addTodoHandler.bind(null, doc);
+
+  boundAddTodoInputHandler = 
+    boundAddTodoInputHandler !== null 
+      ? boundAddTodoInputHandler 
+      : addTodoInputHandler.bind(null, doc);    
 
   boundClearFormHandler = 
     boundClearFormHandler !== null
@@ -151,6 +170,11 @@ export function getListEventHandlers(doc) {
       ? boundNavigateToReport 
       : navigateToReport.bind(null, doc);
   return [
+    {
+      elementId: "todo-text",
+      eventName: "keydown",
+      handler: boundAddTodoInputHandler,
+    },
     {
       elementId: "add-todo-button",
       eventName: "click",
