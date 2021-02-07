@@ -14,8 +14,13 @@ async function addTodoHandler(doc) {
   doc.dispatchEvent(todoItemCreated);
 }
 
+async function addTodoFormHandler(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+  }
+}
+
 async function addTodoInputHandler(doc, event) {
-  event.preventDefault();
   if (event.keyCode === 13) {
     console.log("Add input keydown");
     const todoTextInput = getTodoInput(doc);
@@ -24,7 +29,6 @@ async function addTodoInputHandler(doc, event) {
     const todoItemCreated = new Event("todo-item-created");
     doc.dispatchEvent(todoItemCreated);
   }
-  
 }
 
 function clearFormHandler(doc) {
@@ -120,6 +124,7 @@ async function todoListActionHandler(doc, event) {
 }
 
 let boundAddTodoHandler = null;
+let boundAddTodoFormHandler = null;
 let boundAddTodoInputHandler = null;
 let boundClearFormHandler = null;
 let boundTodoListActionHandler = null;
@@ -134,6 +139,11 @@ export function getListEventHandlers(doc) {
     boundAddTodoHandler !== null 
       ? boundAddTodoHandler 
       : addTodoHandler.bind(null, doc);
+
+  boundAddTodoFormHandler = 
+    boundAddTodoInputHandler !== null 
+      ? boundAddTodoInputHandler 
+      : addTodoFormHandler.bind(null, doc); 
 
   boundAddTodoInputHandler = 
     boundAddTodoInputHandler !== null 
@@ -174,6 +184,11 @@ export function getListEventHandlers(doc) {
       elementId: "todo-text",
       eventName: "keydown",
       handler: boundAddTodoInputHandler,
+    },
+    {
+      elementId: "todo-text",
+      eventName: "keydown",
+      handler: boundAddTodoFormHandler,
     },
     {
       elementId: "add-todo-button",
